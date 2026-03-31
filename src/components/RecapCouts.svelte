@@ -72,9 +72,15 @@
             <td class="montant">{formatEUR(res.couts.fraisAnnexesRelais)}</td>
           </tr>
         {/if}
-        {#if res.couts.ira > 0}
+        {#if res.couts.ira > 0 && res.iraDetail}
           <tr>
-            <td>IRA <small>art. L313-47</small></td>
+            <td>
+              IRA <small>art. L313-47</small>
+              <div class="ira-detail">
+                3 % du capital : {formatEUR(res.iraDetail.plafond3pct)}{res.iraDetail.plafond3pct <= res.iraDetail.plafond6mois ? ' ✓ retenu' : ''}<br>
+                6 mois d'intérêts : {formatEUR(res.iraDetail.plafond6mois)}{res.iraDetail.plafond6mois < res.iraDetail.plafond3pct ? ' ✓ retenu' : ''}
+              </div>
+            </td>
             <td class="montant">{formatEUR(res.couts.ira)}</td>
           </tr>
         {/if}
@@ -130,6 +136,7 @@
   td { padding: 0.4rem 0.5rem; border-bottom: 1px solid #f5f5f5; }
   td.montant { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
   small { color: #999; font-size: 0.75rem; }
+  .ira-detail { font-size: 0.72rem; color: #888; margin-top: 0.25rem; line-height: 1.5; }
 
   tr.total td {
     background: #1a5276;

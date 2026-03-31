@@ -48,6 +48,7 @@ export function calculerScenario(p: ScenarioParams, bien: BienCommun): ResultatS
   // Remboursement anticipé
   let mensualiteApres: number | null = null;
   let ira = 0;
+  let iraDetail = null;
   if (p.remboursementAnticipeActif && p.remboursementAnticipeMontant > 0) {
     const result = appliquerRemboursementAnticipe(
       echeancier,
@@ -62,6 +63,7 @@ export function calculerScenario(p: ScenarioParams, bien: BienCommun): ResultatS
     echeancier = result.echeancier;
     mensualiteApres = result.mensualiteApres;
     ira = result.ira;
+    iraDetail = result.iraDetail;
   }
 
   // Coûts
@@ -89,6 +91,7 @@ export function calculerScenario(p: ScenarioParams, bien: BienCommun): ResultatS
     },
     echeancier,
     echeancierRelais,
+    iraDetail,
   };
 }
 

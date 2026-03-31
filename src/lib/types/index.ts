@@ -65,6 +65,11 @@ export interface CoutsGlobaux {
   sousTotal: number;             // intérêts + assurance + fraisAnnexes + relais + IRA
 }
 
+export interface IRADetail {
+  plafond3pct: number;
+  plafond6mois: number;
+}
+
 export interface ResultatScenario {
   scenarioId: string;
   bien: BienCommun;
@@ -76,4 +81,5 @@ export interface ResultatScenario {
   couts: CoutsGlobaux;
   echeancier: EcheanceAmortissement[];
   echeancierRelais: EcheanceRelais[];
+  iraDetail: IRADetail | null;
 }

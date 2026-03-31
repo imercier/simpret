@@ -14,7 +14,7 @@ export interface ScenarioParams {
   // Prêt principal
   montantEmprunte: number; // 0 = auto-calculé
   dureeAns: number;
-  taeg: number;  // % annuel
+  taux: number;  // % annuel (taux nominal hors assurance)
   taea: number;  // % annuel assurance
   typeAmortissement: 'constant' | 'in-fine';
 

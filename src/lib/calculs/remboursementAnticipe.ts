@@ -1,8 +1,8 @@
 import type { EcheanceAmortissement } from '../types';
 import { construireEcheancier } from './amortissement';
 
-export function calculerIRA(montantRembourse: number, tauxAnnuel: number): { ira: number; plafond3pct: number; plafond6mois: number } {
-  const plafond3pct = montantRembourse * 0.03;
+export function calculerIRA(capitalRestantDuAvant: number, montantRembourse: number, tauxAnnuel: number): { ira: number; plafond3pct: number; plafond6mois: number } {
+  const plafond3pct = capitalRestantDuAvant * 0.03;
   const plafond6mois = montantRembourse * (tauxAnnuel / 100 / 12) * 6;
   return { ira: Math.min(plafond3pct, plafond6mois), plafond3pct, plafond6mois };
 }
@@ -23,7 +23,7 @@ export function appliquerRemboursementAnticipe(
 
   const echeancierAvant = echeancier.slice(0, moisRA);
   const capitalAvantRA = echeancier[moisRA - 1].capitalRestantDu;
-  const iraCalc = iraActif ? calculerIRA(montantRA, tauxAnnuel) : null;
+  const iraCalc = iraActif ? calculerIRA(capitalAvantRA, montantRA, tauxAnnuel) : null;
   const ira = iraCalc?.ira ?? 0;
   const iraDetail = iraCalc ? { plafond3pct: iraCalc.plafond3pct, plafond6mois: iraCalc.plafond6mois } : null;
   const nouveauCapital = Math.max(0, capitalAvantRA - montantRA + ira);

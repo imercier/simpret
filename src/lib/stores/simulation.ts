@@ -15,10 +15,14 @@ function loadScenarios(): ScenarioParams[] {
     const saved = localStorage.getItem('simpret-scenarios');
     if (saved) {
       const parsed: ScenarioParams[] = JSON.parse(saved);
-      return parsed.map(s => ({
-        pretRelaisDureeEffectiveMois: 3,
-        ...s,
-      }));
+      return parsed.map(s => {
+        const { taeg, ...rest } = s as any;
+        return {
+          pretRelaisDureeEffectiveMois: 3,
+          taux: taeg ?? 3.5,
+          ...rest,
+        };
+      });
     }
   } catch {}
   return [creerScenarioDefaut()];

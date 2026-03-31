@@ -49,8 +49,8 @@
       <input type="number" value={scenario.dureeAns} min="1" max="30" on:change={onNum('dureeAns')} />
     </div>
     <div class="field">
-      <label>TAEG (%)</label>
-      <input type="number" value={scenario.taeg} min="0" max="20" step="0.01" on:change={onNum('taeg')} />
+      <label>Taux nominal (%)</label>
+      <input type="number" value={scenario.taux} min="0" max="20" step="0.01" on:change={onNum('taux')} />
     </div>
     <div class="field">
       <label>TAEA assurance (%)</label>

@@ -36,8 +36,12 @@
           return;
         }
         bienCommun.set(data.bien);
-        scenarios.set(data.scenarios);
-        scenarioActifId.set(data.scenarios[0].id);
+        const migrated = data.scenarios.map((s: any) => {
+          const { taeg, ...rest } = s;
+          return { pretRelaisDureeEffectiveMois: 3, taux: taeg ?? 3.5, ...rest };
+        });
+        scenarios.set(migrated);
+        scenarioActifId.set(migrated[0].id);
       } catch {
         erreurImport = 'Fichier JSON invalide.';
       }

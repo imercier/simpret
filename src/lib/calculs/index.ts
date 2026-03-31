@@ -38,7 +38,7 @@ export function calculerScenario(p: ScenarioParams, bien: BienCommun): ResultatS
   // Échéancier principal
   let echeancier = construireEcheancier(
     montantEmprunte,
-    p.taeg,
+    p.taux,
     p.taea,
     dureeMois,
     montantEmprunte,
@@ -55,7 +55,7 @@ export function calculerScenario(p: ScenarioParams, bien: BienCommun): ResultatS
       p.remboursementAnticipeMois,
       p.remboursementAnticipeMontant,
       p.remboursementAnticipeConsequence,
-      p.taeg,
+      p.taux,
       p.taea,
       montantEmprunte,
       p.iraActif
@@ -101,7 +101,7 @@ export function creerScenarioDefaut(): ScenarioParams {
     nom: 'Scénario 1',
     montantEmprunte: 0,
     dureeAns: 12,
-    taeg: 3.5,
+    taux: 3.5,
     taea: 0.5,
     typeAmortissement: 'constant',
     fraisAnnexes: 2000,

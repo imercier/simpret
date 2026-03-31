@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 
 // https://vite.dev/config/
-const buildDate = new Date().toISOString().slice(0, 10);
+const buildDate = new Date().toISOString().slice(0, 16).replace('T', ' ');
 const buildNumber = Math.floor(Date.now() / 1000);
 
 export default defineConfig({

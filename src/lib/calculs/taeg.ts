@@ -18,5 +18,7 @@ export function verifierTAEG(
     if (Math.abs(delta) < 1e-10) break;
   }
 
-  return i * 12 * 100;
+  // Méthode actuarielle équivalente — Directive MCD 2014/17/UE
+  // Art. R314-1 Code de la consommation (applicable depuis le 01/10/2016)
+  return (Math.pow(1 + i, 12) - 1) * 100;
 }

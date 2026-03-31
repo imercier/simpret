@@ -53,19 +53,11 @@
       <input type="number" value={scenario.taux} min="0" max="20" step="0.01" on:change={onNum('taux')} />
     </div>
     <div class="field">
-      <label>TAEA assurance (%)</label>
-      <input type="number" value={scenario.taea} min="0" max="5" step="0.01" on:change={onNum('taea')} />
-    </div>
-    <div class="field">
       <label>Mode assurance</label>
       <select value={scenario.typeAssurance} on:change={onSelect('typeAssurance')}>
         <option value="capital-initial">Capital initial (groupe bancaire)</option>
         <option value="capital-restant">Capital restant dû (délégation)</option>
       </select>
-    </div>
-    <div class="field">
-      <label>Frais annexes (€) <small>dossier, garantie, courtier…</small></label>
-      <input type="number" value={scenario.fraisAnnexes} min="0" on:change={onNum('fraisAnnexes')} />
     </div>
   </section>
 
@@ -106,10 +98,6 @@
           <option value="franchise-partielle">Franchise partielle (intérêts mensuels)</option>
           <option value="franchise-totale">Franchise totale (intérêts capitalisés)</option>
         </select>
-      </div>
-      <div class="field">
-        <label>Frais annexes relais (€) <small>dossier, garantie…</small></label>
-        <input type="number" value={scenario.pretRelaisfraisAnnexes} min="0" on:change={onNum('pretRelaisfraisAnnexes')} />
       </div>
     {/if}
   </section>

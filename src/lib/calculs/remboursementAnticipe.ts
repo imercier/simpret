@@ -16,9 +16,9 @@ export function appliquerRemboursementAnticipe(
   taeaAnnuel: number,
   montantInitialPourAssurance: number,
   iraActif: boolean
-): { echeancier: EcheanceAmortissement[]; mensualiteApres: number | null } {
+): { echeancier: EcheanceAmortissement[]; mensualiteApres: number | null; ira: number } {
   if (moisRA < 1 || moisRA > echeancier.length) {
-    return { echeancier, mensualiteApres: null };
+    return { echeancier, mensualiteApres: null, ira: 0 };
   }
 
   const echeancierAvant = echeancier.slice(0, moisRA);
@@ -32,7 +32,7 @@ export function appliquerRemboursementAnticipe(
   };
 
   if (nouveauCapital === 0) {
-    return { echeancier: echeancierAvant, mensualiteApres: 0 };
+    return { echeancier: echeancierAvant, mensualiteApres: 0, ira };
   }
 
   const moisRestants = echeancier.length - moisRA;
@@ -55,5 +55,5 @@ export function appliquerRemboursementAnticipe(
 
   suite = suite.map((e, i) => ({ ...e, mois: moisRA + i + 1 }));
 
-  return { echeancier: [...echeancierAvant, ...suite], mensualiteApres };
+  return { echeancier: [...echeancierAvant, ...suite], mensualiteApres, ira };
 }

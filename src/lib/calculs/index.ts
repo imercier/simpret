@@ -17,10 +17,11 @@ export function calculerScenario(p: ScenarioParams, bien: BienCommun): ResultatS
 
   if (p.pretRelaisActif && bien.valeurBienVendu > 0) {
     montantPretRelais = calculerMontantRelais(bien.valeurBienVendu, p.pretRelaisQuotite);
+    const dureeEffective = Math.min(p.pretRelaisDureeEffectiveMois, p.pretRelaisDureeMois);
     const relais = construireEcheancierRelais(
       montantPretRelais,
       p.pretRelaisTaux,
-      p.pretRelaisDureeMois,
+      dureeEffective,
       p.pretRelaisType
     );
     echeancierRelais = relais.echeancier;
@@ -46,6 +47,7 @@ export function calculerScenario(p: ScenarioParams, bien: BienCommun): ResultatS
 
   // Remboursement anticipé
   let mensualiteApres: number | null = null;
+  let ira = 0;
   if (p.remboursementAnticipeActif && p.remboursementAnticipeMontant > 0) {
     const result = appliquerRemboursementAnticipe(
       echeancier,
@@ -59,13 +61,14 @@ export function calculerScenario(p: ScenarioParams, bien: BienCommun): ResultatS
     );
     echeancier = result.echeancier;
     mensualiteApres = result.mensualiteApres;
+    ira = result.ira;
   }
 
   // Coûts
   const coutInterets = echeancier.reduce((s, e) => s + e.partInteret, 0);
   const coutAssurance = echeancier.reduce((s, e) => s + e.assurance, 0);
   const fraisAnnexesRelais = p.pretRelaisActif ? p.pretRelaisfraisAnnexes : 0;
-  const sousTotal = coutInterets + coutAssurance + p.fraisAnnexes + coutPretRelais + fraisAnnexesRelais;
+  const sousTotal = coutInterets + coutAssurance + p.fraisAnnexes + coutPretRelais + fraisAnnexesRelais + ira;
 
   return {
     scenarioId: p.id,
@@ -81,6 +84,7 @@ export function calculerScenario(p: ScenarioParams, bien: BienCommun): ResultatS
       fraisAnnexes: p.fraisAnnexes,
       coutPretRelais,
       fraisAnnexesRelais,
+      ira,
       sousTotal,
     },
     echeancier,
@@ -101,6 +105,7 @@ export function creerScenarioDefaut(): ScenarioParams {
     pretRelaisActif: false,
     pretRelaisQuotite: 70,
     pretRelaisDureeMois: 12,
+    pretRelaisDureeEffectiveMois: 3,
     pretRelaisTaux: 4.0,
     pretRelaisType: 'franchise-partielle',
     pretRelaisfraisAnnexes: 500,

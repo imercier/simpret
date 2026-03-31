@@ -62,10 +62,20 @@
           <td>Frais annexes</td>
           <td class="montant">{formatEUR(res.couts.fraisAnnexes)}</td>
         </tr>
-        {#if res.couts.coutPretRelais > 0}
+        {#if res.couts.coutPretRelais > 0 || res.couts.fraisAnnexesRelais > 0}
           <tr>
-            <td>Prêt relais <small>intérêts + frais</small></td>
-            <td class="montant">{formatEUR(res.couts.coutPretRelais + res.couts.fraisAnnexesRelais)}</td>
+            <td>Intérêts relais</td>
+            <td class="montant">{formatEUR(res.couts.coutPretRelais)}</td>
+          </tr>
+          <tr>
+            <td>Frais annexes relais</td>
+            <td class="montant">{formatEUR(res.couts.fraisAnnexesRelais)}</td>
+          </tr>
+        {/if}
+        {#if res.couts.ira > 0}
+          <tr>
+            <td>IRA <small>art. L313-47</small></td>
+            <td class="montant">{formatEUR(res.couts.ira)}</td>
           </tr>
         {/if}
         <tr class="total">

@@ -41,9 +41,8 @@
   <section>
     <h3>Prêt principal</h3>
     <div class="field">
-      <label>Montant emprunté (€) <small>0 = auto</small></label>
-      <input type="number" value={scenario.montantEmprunte} min="0" on:change={onNum('montantEmprunte')} />
-      <span class="hint">{res ? 'Auto : ' + formatEUR(res.montantEmprunte) : ''}</span>
+      <label>Montant emprunté (€) {#if scenario.montantEmprunte > 0}<small>0 = auto</small>{/if}</label>
+      <input type="number" value={scenario.montantEmprunte === 0 && res ? res.montantEmprunte : scenario.montantEmprunte} min="0" on:change={onNum('montantEmprunte')} />
     </div>
     <div class="field">
       <label>Durée (années)</label>
@@ -82,8 +81,13 @@
         <span class="hint">→ Montant relais : {formatEUR(montantRelais)}</span>
       </div>
       <div class="field">
-        <label>Durée du relais (mois)</label>
+        <label>Durée contractuelle max (mois)</label>
         <input type="number" value={scenario.pretRelaisDureeMois} min="1" max="24" on:change={onNum('pretRelaisDureeMois')} />
+      </div>
+      <div class="field">
+        <label>Durée effective (mois) <small>vente réelle du bien</small></label>
+        <input type="number" value={scenario.pretRelaisDureeEffectiveMois} min="1" max={scenario.pretRelaisDureeMois} on:change={onNum('pretRelaisDureeEffectiveMois')} />
+        <span class="hint">Coût calculé sur {Math.min(scenario.pretRelaisDureeEffectiveMois, scenario.pretRelaisDureeMois)} mois</span>
       </div>
       <div class="field">
         <label>Taux du relais (%)</label>

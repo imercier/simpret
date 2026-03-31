@@ -23,11 +23,12 @@ export interface ScenarioParams {
 
   // Prêt relais
   pretRelaisActif: boolean;
-  pretRelaisQuotite: number;      // % ex: 70 → montant = valeurBien * quotite/100
-  pretRelaisDureeMois: number;
-  pretRelaisTaux: number;         // % annuel
+  pretRelaisQuotite: number;              // % ex: 70 → montant = valeurBien * quotite/100
+  pretRelaisDureeMois: number;            // durée contractuelle max du relais
+  pretRelaisDureeEffectiveMois: number;   // durée effective réelle (vente du bien) — utilisée pour le coût
+  pretRelaisTaux: number;                 // % annuel
   pretRelaisType: 'franchise-totale' | 'franchise-partielle';
-  pretRelaisfraisAnnexes: number; // € — frais de dossier relais, garantie…
+  pretRelaisfraisAnnexes: number;         // € — frais de dossier relais, garantie…
 
   // Remboursement anticipé
   remboursementAnticipeActif: boolean;
@@ -60,7 +61,8 @@ export interface CoutsGlobaux {
   fraisAnnexes: number;
   coutPretRelais: number;        // intérêts relais
   fraisAnnexesRelais: number;    // frais annexes du relais
-  sousTotal: number;             // intérêts + assurance + fraisAnnexes + relais
+  ira: number;                   // indemnités de remboursement anticipé
+  sousTotal: number;             // intérêts + assurance + fraisAnnexes + relais + IRA
 }
 
 export interface ResultatScenario {

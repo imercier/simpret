@@ -20,6 +20,7 @@
     ['Frais annexes',            pairs.map(p => formatEUR(p.r.couts.fraisAnnexes))],
     ...(pairs.some(p => p.r.couts.coutPretRelais > 0) ? [['Intérêts relais', pairs.map(p => p.r.couts.coutPretRelais > 0 ? formatEUR(p.r.couts.coutPretRelais) : '—')]] : []),
     ...(pairs.some(p => p.r.couts.fraisAnnexesRelais > 0) ? [['Frais annexes relais', pairs.map(p => p.r.couts.fraisAnnexesRelais > 0 ? formatEUR(p.r.couts.fraisAnnexesRelais) : '—')]] : []),
+    ...(pairs.some(p => p.r.couts.ira > 0) ? [['IRA (art. L313-47)', pairs.map(p => p.r.couts.ira > 0 ? formatEUR(p.r.couts.ira) : '—')]] : []),
     ['Sous-total crédit',        pairs.map(p => formatEUR(p.r.couts.sousTotal))],
   ] as [string, string[]][];
 
@@ -37,6 +38,7 @@
           { label: 'Assurance',     data: pairs.map(p => p.r.couts.coutAssurance),     backgroundColor: '#f39c12' },
           { label: 'Frais annexes', data: pairs.map(p => p.r.couts.fraisAnnexes),      backgroundColor: '#95a5a6' },
           { label: 'Frais relais',  data: pairs.map(p => p.r.couts.fraisAnnexesRelais + p.r.couts.coutPretRelais), backgroundColor: '#2980b9' },
+          { label: 'IRA',           data: pairs.map(p => p.r.couts.ira),                                            backgroundColor: '#8e44ad' },
         ],
       },
       options: {

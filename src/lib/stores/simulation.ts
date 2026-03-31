@@ -13,7 +13,13 @@ function loadBien(): BienCommun {
 function loadScenarios(): ScenarioParams[] {
   try {
     const saved = localStorage.getItem('simpret-scenarios');
-    if (saved) return JSON.parse(saved);
+    if (saved) {
+      const parsed: ScenarioParams[] = JSON.parse(saved);
+      return parsed.map(s => ({
+        pretRelaisDureeEffectiveMois: 3,
+        ...s,
+      }));
+    }
   } catch {}
   return [creerScenarioDefaut()];
 }

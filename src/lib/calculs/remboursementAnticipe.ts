@@ -15,7 +15,8 @@ export function appliquerRemboursementAnticipe(
   tauxAnnuel: number,
   taeaAnnuel: number,
   montantInitialPourAssurance: number,
-  iraActif: boolean
+  iraActif: boolean,
+  typeAssurance: 'capital-initial' | 'capital-restant' = 'capital-initial'
 ): { echeancier: EcheanceAmortissement[]; mensualiteApres: number | null; ira: number; iraDetail: { plafond3pct: number; plafond6mois: number } | null } {
   if (moisRA < 1 || moisRA > echeancier.length) {
     return { echeancier, mensualiteApres: null, ira: 0, iraDetail: null };
@@ -48,10 +49,10 @@ export function appliquerRemboursementAnticipe(
     const nNouveau = tm === 0
       ? Math.ceil(nouveauCapital / mensualiteInitiale)
       : Math.ceil(-Math.log(1 - nouveauCapital * tm / mensualiteInitiale) / Math.log(1 + tm));
-    suite = construireEcheancier(nouveauCapital, tauxAnnuel, taeaAnnuel, nNouveau, montantInitialPourAssurance);
+    suite = construireEcheancier(nouveauCapital, tauxAnnuel, taeaAnnuel, nNouveau, montantInitialPourAssurance, 'constant', typeAssurance);
     mensualiteApres = mensualiteInitiale;
   } else {
-    suite = construireEcheancier(nouveauCapital, tauxAnnuel, taeaAnnuel, moisRestants, montantInitialPourAssurance);
+    suite = construireEcheancier(nouveauCapital, tauxAnnuel, taeaAnnuel, moisRestants, montantInitialPourAssurance, 'constant', typeAssurance);
     mensualiteApres = suite[0]?.mensualiteHorsAssurance ?? 0;
   }
 

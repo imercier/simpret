@@ -57,6 +57,13 @@
       <input type="number" value={scenario.taea} min="0" max="5" step="0.01" on:change={onNum('taea')} />
     </div>
     <div class="field">
+      <label>Mode assurance</label>
+      <select value={scenario.typeAssurance} on:change={onSelect('typeAssurance')}>
+        <option value="capital-initial">Capital initial (groupe bancaire)</option>
+        <option value="capital-restant">Capital restant dû (délégation)</option>
+      </select>
+    </div>
+    <div class="field">
       <label>Frais annexes (€) <small>dossier, garantie, courtier…</small></label>
       <input type="number" value={scenario.fraisAnnexes} min="0" on:change={onNum('fraisAnnexes')} />
     </div>

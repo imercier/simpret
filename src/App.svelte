@@ -38,7 +38,7 @@
         bienCommun.set(data.bien);
         const migrated = data.scenarios.map((s: any) => {
           const { taeg, ...rest } = s;
-          return { pretRelaisDureeEffectiveMois: 3, taux: taeg ?? 3.5, ...rest };
+          return { pretRelaisDureeEffectiveMois: 3, taux: taeg ?? 3.5, typeAssurance: 'capital-initial', ...rest };
         });
         scenarios.set(migrated);
         scenarioActifId.set(migrated[0].id);

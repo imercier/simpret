@@ -12,26 +12,34 @@ export function construireEcheancier(
   taeaAnnuel: number,
   dureeMois: number,
   montantInitialPourAssurance: number,
-  typeAmortissement: 'constant' | 'in-fine' = 'constant'
+  typeAmortissement: 'constant' | 'in-fine' = 'constant',
+  typeAssurance: 'capital-initial' | 'capital-restant' = 'capital-initial'
 ): EcheanceAmortissement[] {
   const tm = tauxAnnuel / 100 / 12;
-  const assuranceMensuelle = montantInitialPourAssurance * (taeaAnnuel / 100 / 12);
+  const tauxAssuranceMensuel = taeaAnnuel / 100 / 12;
+  const assuranceFixe = montantInitialPourAssurance * tauxAssuranceMensuel;
   const echeancier: EcheanceAmortissement[] = [];
 
   if (typeAmortissement === 'in-fine') {
     const interet = capital * tm;
-    const mensualite = interet; // capital remboursé uniquement à l'échéance
+    const mensualite = interet;
+    let capitalCourant = capital;
     for (let i = 1; i <= dureeMois; i++) {
       const isDernierMois = i === dureeMois;
       const capitalRembourse = isDernierMois ? capital : 0;
+      const assurance = typeAssurance === 'capital-restant'
+        ? capitalCourant * tauxAssuranceMensuel
+        : assuranceFixe;
+      const mensualiteHA = isDernierMois ? mensualite + capital : mensualite;
+      capitalCourant = isDernierMois ? 0 : capital;
       echeancier.push({
         mois: i,
-        capitalRestantDu: isDernierMois ? 0 : capital,
-        mensualiteHorsAssurance: isDernierMois ? mensualite + capital : mensualite,
+        capitalRestantDu: capitalCourant,
+        mensualiteHorsAssurance: mensualiteHA,
         partInteret: interet,
         partCapital: capitalRembourse,
-        assurance: assuranceMensuelle,
-        mensualiteTotale: (isDernierMois ? mensualite + capital : mensualite) + assuranceMensuelle,
+        assurance,
+        mensualiteTotale: mensualiteHA + assurance,
         remboursementAnticipe: 0,
       });
     }
@@ -46,6 +54,9 @@ export function construireEcheancier(
     const interet = capitalRestant * tm;
     const capitalRembourse = Math.min(mensualite - interet, capitalRestant);
     capitalRestant = Math.max(0, capitalRestant - capitalRembourse);
+    const assurance = typeAssurance === 'capital-restant'
+      ? capitalRestant * tauxAssuranceMensuel
+      : assuranceFixe;
 
     echeancier.push({
       mois: i,
@@ -53,8 +64,8 @@ export function construireEcheancier(
       mensualiteHorsAssurance: mensualite,
       partInteret: interet,
       partCapital: capitalRembourse,
-      assurance: assuranceMensuelle,
-      mensualiteTotale: mensualite + assuranceMensuelle,
+      assurance,
+      mensualiteTotale: mensualite + assurance,
       remboursementAnticipe: 0,
     });
   }

@@ -20,6 +20,7 @@ function loadScenarios(): ScenarioParams[] {
         return {
           pretRelaisDureeEffectiveMois: 3,
           taux: taeg ?? 3.5,
+          typeAssurance: 'capital-initial',
           ...rest,
         };
       });

@@ -42,7 +42,8 @@ export function calculerScenario(p: ScenarioParams, bien: BienCommun): ResultatS
     p.taea,
     dureeMois,
     montantEmprunte,
-    p.typeAmortissement
+    p.typeAmortissement,
+    p.typeAssurance
   );
 
   // Remboursement anticipé
@@ -58,7 +59,8 @@ export function calculerScenario(p: ScenarioParams, bien: BienCommun): ResultatS
       p.taux,
       p.taea,
       montantEmprunte,
-      p.iraActif
+      p.iraActif,
+      p.typeAssurance
     );
     echeancier = result.echeancier;
     mensualiteApres = result.mensualiteApres;
@@ -103,6 +105,7 @@ export function creerScenarioDefaut(): ScenarioParams {
     dureeAns: 12,
     taux: 3.5,
     taea: 0.5,
+    typeAssurance: 'capital-initial',
     typeAmortissement: 'constant',
     fraisAnnexes: 2000,
     pretRelaisActif: false,

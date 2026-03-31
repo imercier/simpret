@@ -16,6 +16,7 @@ export interface ScenarioParams {
   dureeAns: number;
   taux: number;  // % annuel (taux nominal hors assurance)
   taea: number;  // % annuel assurance
+  typeAssurance: 'capital-initial' | 'capital-restant';  // groupe bancaire vs délégation
   typeAmortissement: 'constant' | 'in-fine';
 
   // Frais annexes

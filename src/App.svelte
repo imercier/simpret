@@ -120,6 +120,7 @@
 
   <footer>
     <p>Calculs indicatifs — TAEG méthode actuarielle directive MCD · IRA plafonnées art. L313-47 Code conso · TAEA affiché séparément (loi Lagarde)</p>
+    <p class="build">build {__BUILD_DATE__} · #{__BUILD_NUMBER__}</p>
   </footer>
 </div>
 
@@ -245,4 +246,5 @@
     padding: 0.6rem 1rem;
   }
   footer p { margin: 0; font-size: 0.72rem; color: #999; }
+  footer p.build { margin-top: 0.2rem; font-size: 0.65rem; color: #bbb; font-variant-numeric: tabular-nums; }
 </style>

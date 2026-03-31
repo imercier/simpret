@@ -1,0 +1,15 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #f0f4f8;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #2c3e50;
+  color-scheme: light;
+}
+
+input, select, textarea {
+  color: #2c3e50;
+  background: white;
+}

@@ -5,7 +5,7 @@ import { appliquerRemboursementAnticipe } from './remboursementAnticipe';
 
 export function calculerScenario(p: ScenarioParams, bien: BienCommun): ResultatScenario {
   const fraisNotaire = bien.prixBien * (bien.tauxFraisNotaire / 100); // notaire sur prix du bien uniquement
-  const produitNetVente = Math.max(0, bien.valeurBienVendu - bien.resteAPayerPretEnCours);
+  const produitNetVente = Math.max(0, p.valeurBienVendu - bien.resteAPayerPretEnCours);
 
   const dureeMois = p.dureeAns * 12;
 
@@ -15,8 +15,8 @@ export function calculerScenario(p: ScenarioParams, bien: BienCommun): ResultatS
   let echeancierRelais: EcheanceRelais[] = [];
   let dureeEffectiveRelais = 0;
 
-  if (p.pretRelaisActif && bien.valeurBienVendu > 0) {
-    montantPretRelais = calculerMontantRelais(bien.valeurBienVendu, p.pretRelaisQuotite);
+  if (p.pretRelaisActif && p.valeurBienVendu > 0) {
+    montantPretRelais = calculerMontantRelais(p.valeurBienVendu, p.pretRelaisQuotite);
     dureeEffectiveRelais = Math.min(p.pretRelaisDureeEffectiveMois, p.pretRelaisDureeMois);
     const relais = construireEcheancierRelais(
       montantPretRelais,
@@ -158,6 +158,7 @@ export function creerScenarioDefaut(): ScenarioParams {
     taea: 0.5,
     typeAssurance: 'capital-initial',
     typeAmortissement: 'constant',
+    revenuLocatifMensuel: 0,
     pretRelaisActif: false,
     pretRelaisQuotite: 70,
     pretRelaisDureeMois: 12,
@@ -169,5 +170,6 @@ export function creerScenarioDefaut(): ScenarioParams {
     remboursementAnticipeMontant: 20000,
     remboursementAnticipeConsequence: 'reduire-duree',
     iraActif: true,
+    valeurBienVendu: 500000,
   };
 }

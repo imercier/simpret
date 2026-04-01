@@ -5,11 +5,9 @@
 
   export let scenario: ScenarioParams;
 
-  import { bienCommun } from '../lib/stores/simulation';
-
   $: res = $resultats.find(r => r.scenarioId === scenario.id);
   $: montantRelais = scenario.pretRelaisActif
-    ? $bienCommun.valeurBienVendu * (scenario.pretRelaisQuotite / 100)
+    ? scenario.valeurBienVendu * (scenario.pretRelaisQuotite / 100)
     : 0;
 
   function upd(champs: Partial<ScenarioParams>) {
@@ -37,6 +35,15 @@
     <input type="text" value={scenario.nom} on:change={onText('nom')} />
   </div>
 
+  <!-- Bien en vente -->
+  <section>
+    <h3>Bien en vente</h3>
+    <div class="field">
+      <label>Valeur du bien en vente (€)</label>
+      <input type="number" value={scenario.valeurBienVendu} min="0" on:change={onNum('valeurBienVendu')} />
+    </div>
+  </section>
+
   <!-- Prêt principal -->
   <section>
     <h3>Prêt principal</h3>
@@ -61,6 +68,18 @@
     </div>
   </section>
 
+  <!-- Revenus locatifs -->
+  <section>
+    <h3>Revenus locatifs</h3>
+    <div class="field">
+      <label>Loyer mensuel perçu (€)</label>
+      <input type="number" value={scenario.revenuLocatifMensuel} min="0" on:change={onNum('revenuLocatifMensuel')} />
+      {#if scenario.revenuLocatifMensuel > 0}
+        <span class="hint">→ +{(scenario.revenuLocatifMensuel * 0.7).toFixed(0)} € pris en compte (70%)</span>
+      {/if}
+    </div>
+  </section>
+
   <!-- Prêt relais -->
   <section>
     <h3>
@@ -70,10 +89,6 @@
       </label>
     </h3>
     {#if scenario.pretRelaisActif}
-      <div class="field readonly">
-        <label>Valeur du bien vendu (€)</label>
-        <span class="val-commune">{formatEUR($bienCommun.valeurBienVendu)}</span>
-      </div>
       <div class="field">
         <label>Quotité accordée (%)</label>
         <input type="number" value={scenario.pretRelaisQuotite} min="0" max="100" step="5" on:change={onNum('pretRelaisQuotite')} />
@@ -173,16 +188,6 @@
     outline: none;
     border-color: #2980b9;
     box-shadow: 0 0 0 2px #2980b930;
-  }
-  .val-commune {
-    display: block;
-    padding: 0.4rem 0.6rem;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    font-size: 0.88rem;
-    background: #f0f4f8;
-    color: #555;
-    font-weight: 600;
   }
   .hint {
     font-size: 0.76rem;

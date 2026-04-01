@@ -2,7 +2,6 @@ export interface BienCommun {
   prixBien: number;
   apportPersonnel: number;
   tauxFraisNotaire: number; // % ex: 7.5
-  valeurBienVendu: number;  // € bien à vendre
   resteAPayerPretEnCours: number; // € capital restant dû sur le prêt du bien à vendre
   revenusMensuels: number;  // € revenus mensuels nets pour calcul taux d'endettement
   tauxGarantie: number;            // % du capital emprunté ex: 1.5
@@ -22,6 +21,12 @@ export interface ScenarioParams {
   taea: number;  // % annuel assurance (s'applique aussi au relais)
   typeAssurance: 'capital-initial' | 'capital-restant';  // groupe bancaire vs délégation
   typeAmortissement: 'constant' | 'in-fine';
+
+  // Revenus locatifs (intégrés à 70% dans le revenu pour le taux d'endettement)
+  revenuLocatifMensuel: number;
+
+  // Bien en vente (prêt relais)
+  valeurBienVendu: number;       // € bien à vendre
 
   // Frais annexes
   // Prêt relais

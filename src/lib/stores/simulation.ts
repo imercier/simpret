@@ -3,7 +3,7 @@ import type { ScenarioParams, ResultatScenario, BienCommun } from '../types';
 import { calculerScenario, creerScenarioDefaut } from '../calculs';
 
 function loadBien(): BienCommun {
-  const defaults: BienCommun = { prixBien: 927000, apportPersonnel: 330000, tauxFraisNotaire: 7, valeurBienVendu: 500000, resteAPayerPretEnCours: 0, revenusMensuels: 0, tauxGarantie: 1.5, fraisBanque: 1000, fraisCourtier: 1500, fraisAgence: 0 };
+  const defaults: BienCommun = { prixBien: 927000, apportPersonnel: 330000, tauxFraisNotaire: 7, resteAPayerPretEnCours: 0, revenusMensuels: 0, tauxGarantie: 1.5, fraisBanque: 1000, fraisCourtier: 1500, fraisAgence: 0 };
   try {
     const saved = localStorage.getItem('simpret-bien');
     if (saved) return { ...defaults, ...JSON.parse(saved) };
@@ -22,6 +22,8 @@ function loadScenarios(): ScenarioParams[] {
           pretRelaisDureeEffectiveMois: 3,
           taux: taeg ?? 3.5,
           typeAssurance: 'capital-initial',
+          revenuLocatifMensuel: 0,
+          valeurBienVendu: 0,
           ...rest,
         };
       });
@@ -83,7 +85,7 @@ export function mettreAJourScenario(id: string, champs: Partial<ScenarioParams>)
 }
 
 export function reinitialiser() {
-  bienCommun.set({ prixBien: 927000, apportPersonnel: 330000, tauxFraisNotaire: 7, valeurBienVendu: 500000, resteAPayerPretEnCours: 0, revenusMensuels: 0, tauxGarantie: 1.5, fraisBanque: 1000, fraisCourtier: 1500, fraisAgence: 0 });
+  bienCommun.set({ prixBien: 927000, apportPersonnel: 330000, tauxFraisNotaire: 7, resteAPayerPretEnCours: 0, revenusMensuels: 0, tauxGarantie: 1.5, fraisBanque: 1000, fraisCourtier: 1500, fraisAgence: 0 });
   const def = creerScenarioDefaut();
   scenarios.set([def]);
   scenarioActifId.set(def.id);

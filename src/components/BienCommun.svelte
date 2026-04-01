@@ -3,8 +3,7 @@
   import { formatEUR } from '../lib/utils/format';
 
   $: fraisNotaire = $bienCommun.prixBien * ($bienCommun.tauxFraisNotaire / 100);
-  $: produitNetVente = Math.max(0, $bienCommun.valeurBienVendu - $bienCommun.resteAPayerPretEnCours);
-  $: resteAFinancer = Math.max(0, $bienCommun.prixBien + fraisNotaire + $bienCommun.fraisAgence - $bienCommun.apportPersonnel - produitNetVente);
+  $: resteAFinancer = Math.max(0, $bienCommun.prixBien + fraisNotaire + $bienCommun.fraisAgence - $bienCommun.apportPersonnel);
 
   function onNum(field: keyof typeof $bienCommun) {
     return (e: Event) => bienCommun.update(b => ({
@@ -31,11 +30,6 @@
   <div class="field">
     <label for="bc-agence">Frais agence (€)</label>
     <input id="bc-agence" type="number" value={$bienCommun.fraisAgence} min="0" on:change={onNum('fraisAgence')} />
-  </div>
-  <div class="sep"></div>
-  <div class="field">
-    <label for="bc-valeur-vente">Bien en vente (€)</label>
-    <input id="bc-valeur-vente" type="number" value={$bienCommun.valeurBienVendu} min="0" on:change={onNum('valeurBienVendu')} />
   </div>
   <div class="field">
     <label for="bc-reste-payer">Reste à payer prêt en cours (€)</label>

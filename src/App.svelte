@@ -1,7 +1,7 @@
 <script lang="ts">
   import {
     scenarios, scenarioActifId, bienCommun,
-    ajouterScenario, supprimerScenario, dupliquerScenario, reinitialiser
+    ajouterScenario, supprimerScenario, dupliquerScenario, reinitialiser, deplacerScenario
   } from './lib/stores/simulation';
   import BienCommun from './components/BienCommun.svelte';
   import ScenarioEditor from './components/ScenarioEditor.svelte';
@@ -57,6 +57,22 @@
   }
 
   $: scenarioActif = $scenarios.find(s => s.id === $scenarioActifId);
+
+  let dragFromIndex: number | null = null;
+
+  function onDragStart(index: number) {
+    dragFromIndex = index;
+  }
+  function onDragOver(e: DragEvent, index: number) {
+    e.preventDefault();
+    if (dragFromIndex !== null && dragFromIndex !== index) {
+      deplacerScenario(dragFromIndex, index);
+      dragFromIndex = index;
+    }
+  }
+  function onDragEnd() {
+    dragFromIndex = null;
+  }
 </script>
 
 <div class="app">
@@ -91,12 +107,18 @@
   <main>
     {#if onglet === 'simulation'}
       <BienCommun />
+
       <div class="scenario-bar">
-        {#each $scenarios as s}
+        {#each $scenarios as s, i}
           <button
             class="tab"
             class:active={s.id === $scenarioActifId}
+            class:dragging={dragFromIndex === i}
+            draggable="true"
             on:click={() => scenarioActifId.set(s.id)}
+            on:dragstart={() => onDragStart(i)}
+            on:dragover={(e) => onDragOver(e, i)}
+            on:dragend={onDragEnd}
           >
             {s.nom}
             {#if $scenarios.length > 1}
@@ -184,7 +206,7 @@
     max-width: 1400px;
     width: 100%;
     margin: 0 auto;
-    padding: 1.25rem 1.5rem;
+    padding: 0.75rem 1.25rem;
     box-sizing: border-box;
   }
 
@@ -193,7 +215,7 @@
     gap: 0.4rem;
     flex-wrap: wrap;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
   .tab {
     padding: 0.35rem 0.9rem;
@@ -209,6 +231,7 @@
     gap: 0.4rem;
   }
   .tab.active { background: #2980b9; color: white; }
+  .tab.dragging { opacity: 0.4; }
   .tab-x { font-size: 1rem; line-height: 1; opacity: 0.6; padding: 0 0.1rem; }
   .tab-x:hover { opacity: 1; }
   .tab-add {
@@ -235,12 +258,13 @@
 
   .layout {
     display: grid;
-    grid-template-columns: 380px 1fr;
-    gap: 1.5rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
     align-items: start;
   }
-  @media (max-width: 900px) {
+  @media (max-width: 800px) {
     .layout { grid-template-columns: 1fr; }
+    main { padding: 0.75rem; }
   }
 
   footer {

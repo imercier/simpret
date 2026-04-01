@@ -193,15 +193,15 @@
 </div>
 
 <style>
-  .recap { display: flex; flex-direction: column; gap: 1rem; }
+  .recap { display: flex; flex-direction: column; gap: 0.6rem; }
 
-  .kpis { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .kpis { display: flex; gap: 0.5rem; flex-wrap: wrap; }
   .kpi {
     background: #1a5276;
     color: white;
     border-radius: 8px;
-    padding: 0.85rem 1rem;
-    min-width: 130px;
+    padding: 0.5rem 0.75rem;
+    min-width: 110px;
     flex: 1;
   }
   .kpi.primary { background: #154360; }
@@ -228,10 +228,10 @@
     background: white;
     border: 1px solid #dee2e6;
     border-radius: 8px;
-    padding: 1rem;
+    padding: 0.6rem 0.75rem;
   }
   h3 {
-    margin: 0 0 0.75rem;
+    margin: 0 0 0.4rem;
     font-size: 0.85rem;
     color: #1a5276;
     text-transform: uppercase;

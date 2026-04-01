@@ -80,6 +80,15 @@ export function dupliquerScenario(id: string) {
   });
 }
 
+export function deplacerScenario(fromIndex: number, toIndex: number) {
+  scenarios.update(list => {
+    const result = [...list];
+    const [moved] = result.splice(fromIndex, 1);
+    result.splice(toIndex, 0, moved);
+    return result;
+  });
+}
+
 export function mettreAJourScenario(id: string, champs: Partial<ScenarioParams>) {
   scenarios.update(list => list.map(s => s.id === id ? { ...s, ...champs } : s));
 }

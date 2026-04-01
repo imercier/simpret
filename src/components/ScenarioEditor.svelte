@@ -30,147 +30,158 @@
 </script>
 
 <aside class="editor">
-  <div class="field">
-    <label>Nom du scénario</label>
+  <div class="nom-field">
+    <label>Nom</label>
     <input type="text" value={scenario.nom} on:change={onText('nom')} />
   </div>
 
-  <!-- Bien en vente -->
-  <section>
-    <h3>Bien en vente</h3>
-    <div class="field">
-      <label>Valeur du bien en vente (€)</label>
-      <input type="number" value={scenario.valeurBienVendu} min="0" on:change={onNum('valeurBienVendu')} />
-    </div>
-  </section>
+  <div class="sections">
 
-  <!-- Prêt principal -->
-  <section>
-    <h3>Prêt principal</h3>
-    <div class="field">
-      <label>Montant emprunté (€) {#if scenario.montantEmprunte > 0}<small>0 = auto</small>{/if}</label>
-      <input type="number" value={scenario.montantEmprunte === 0 && res ? res.montantEmprunte : scenario.montantEmprunte} min="0" on:change={onNum('montantEmprunte')} />
-    </div>
-    <div class="field">
-      <label>Durée (années)</label>
-      <input type="number" value={scenario.dureeAns} min="1" max="30" on:change={onNum('dureeAns')} />
-    </div>
-    <div class="field">
-      <label>Taux nominal (%)</label>
-      <input type="number" value={scenario.taux} min="0" max="20" step="0.01" on:change={onNum('taux')} />
-    </div>
-    <div class="field">
-      <label>Mode assurance</label>
-      <select value={scenario.typeAssurance} on:change={onSelect('typeAssurance')}>
-        <option value="capital-initial">Capital initial (groupe bancaire)</option>
-        <option value="capital-restant">Capital restant dû (délégation)</option>
-      </select>
-    </div>
-  </section>
+    <!-- Bien en vente -->
+    <section>
+      <h3>Bien en vente</h3>
+      <div class="field">
+        <label>Valeur du bien en vente (€)</label>
+        <input type="number" value={scenario.valeurBienVendu} min="0" on:change={onNum('valeurBienVendu')} />
+      </div>
+    </section>
 
-  <!-- Revenus locatifs -->
-  <section>
-    <h3>Revenus locatifs</h3>
-    <div class="field">
-      <label>Loyer mensuel perçu (€)</label>
-      <input type="number" value={scenario.revenuLocatifMensuel} min="0" on:change={onNum('revenuLocatifMensuel')} />
-      {#if scenario.revenuLocatifMensuel > 0}
-        <span class="hint">→ +{(scenario.revenuLocatifMensuel * 0.7).toFixed(0)} € pris en compte (70%)</span>
-      {/if}
-    </div>
-  </section>
-
-  <!-- Prêt relais -->
-  <section>
-    <h3>
-      <label class="toggle">
-        <input type="checkbox" checked={scenario.pretRelaisActif} on:change={onCheck('pretRelaisActif')} />
-        Prêt relais
-      </label>
-    </h3>
-    {#if scenario.pretRelaisActif}
+    <!-- Prêt principal -->
+    <section>
+      <h3>Prêt principal</h3>
       <div class="field">
-        <label>Quotité accordée (%)</label>
-        <input type="number" value={scenario.pretRelaisQuotite} min="0" max="100" step="5" on:change={onNum('pretRelaisQuotite')} />
-        <span class="hint">→ Montant relais : {formatEUR(montantRelais)}</span>
+        <label>Montant emprunté (€) {#if scenario.montantEmprunte > 0}<small>0 = auto</small>{/if}</label>
+        <input type="number" value={scenario.montantEmprunte === 0 && res ? res.montantEmprunte : scenario.montantEmprunte} min="0" on:change={onNum('montantEmprunte')} />
       </div>
       <div class="field">
-        <label>Durée contractuelle max (mois)</label>
-        <input type="number" value={scenario.pretRelaisDureeMois} min="1" max="24" on:change={onNum('pretRelaisDureeMois')} />
+        <label>Durée (années)</label>
+        <input type="number" value={scenario.dureeAns} min="1" max="30" on:change={onNum('dureeAns')} />
       </div>
       <div class="field">
-        <label>Durée effective (mois) <small>vente réelle du bien</small></label>
-        <input type="number" value={scenario.pretRelaisDureeEffectiveMois} min="1" max={scenario.pretRelaisDureeMois} on:change={onNum('pretRelaisDureeEffectiveMois')} />
-        <span class="hint">Coût calculé sur {Math.min(scenario.pretRelaisDureeEffectiveMois, scenario.pretRelaisDureeMois)} mois</span>
+        <label>Taux nominal (%)</label>
+        <input type="number" value={scenario.taux} min="0" max="20" step="0.01" on:change={onNum('taux')} />
       </div>
       <div class="field">
-        <label>Taux du relais (%)</label>
-        <input type="number" value={scenario.pretRelaisTaux} min="0" max="20" step="0.01" on:change={onNum('pretRelaisTaux')} />
-      </div>
-      <div class="field">
-        <label>Type de franchise</label>
-        <select value={scenario.pretRelaisType} on:change={onSelect('pretRelaisType')}>
-          <option value="franchise-partielle">Franchise partielle (intérêts mensuels)</option>
-          <option value="franchise-totale">Franchise totale (intérêts capitalisés)</option>
+        <label>Mode assurance</label>
+        <select value={scenario.typeAssurance} on:change={onSelect('typeAssurance')}>
+          <option value="capital-initial">Capital initial (groupe bancaire)</option>
+          <option value="capital-restant">Capital restant dû (délégation)</option>
         </select>
       </div>
-    {/if}
-  </section>
+    </section>
 
-  <!-- Remboursement anticipé -->
-  <section>
-    <h3>
-      <label class="toggle">
-        <input type="checkbox" checked={scenario.remboursementAnticipeActif} on:change={onCheck('remboursementAnticipeActif')} />
-        Remboursement anticipé
-      </label>
-    </h3>
-    {#if scenario.remboursementAnticipeActif}
+    <!-- Revenus locatifs -->
+    <section>
+      <h3>Revenus locatifs</h3>
       <div class="field">
-        <label>Au mois numéro</label>
-        <input type="number" value={scenario.remboursementAnticipeMois} min="1" on:change={onNum('remboursementAnticipeMois')} />
+        <label>Loyer mensuel perçu (€)</label>
+        <input type="number" value={scenario.revenuLocatifMensuel} min="0" on:change={onNum('revenuLocatifMensuel')} />
+        {#if scenario.revenuLocatifMensuel > 0}
+          <span class="hint">→ +{(scenario.revenuLocatifMensuel * 0.7).toFixed(0)} € pris en compte (70%)</span>
+        {/if}
       </div>
-      <div class="field">
-        <label>Montant (€)</label>
-        <input type="number" value={scenario.remboursementAnticipeMontant} min="0" on:change={onNum('remboursementAnticipeMontant')} />
-      </div>
-      <div class="field">
-        <label>Conséquence</label>
-        <select value={scenario.remboursementAnticipeConsequence} on:change={onSelect('remboursementAnticipeConsequence')}>
-          <option value="reduire-duree">Réduire la durée</option>
-          <option value="reduire-mensualite">Réduire la mensualité</option>
-        </select>
-      </div>
-      <div class="field">
+    </section>
+
+    <!-- Prêt relais -->
+    <section>
+      <h3>
         <label class="toggle">
-          <input type="checkbox" checked={scenario.iraActif} on:change={onCheck('iraActif')} />
-          Appliquer les IRA (pénalités légales, art. L313-47)
+          <input type="checkbox" checked={scenario.pretRelaisActif} on:change={onCheck('pretRelaisActif')} />
+          Prêt relais
         </label>
-      </div>
-    {/if}
-  </section>
+      </h3>
+      {#if scenario.pretRelaisActif}
+        <div class="field">
+          <label>Quotité accordée (%)</label>
+          <input type="number" value={scenario.pretRelaisQuotite} min="0" max="100" step="5" on:change={onNum('pretRelaisQuotite')} />
+          <span class="hint">→ Montant relais : {formatEUR(montantRelais)}</span>
+        </div>
+        <div class="field">
+          <label>Durée contractuelle max (mois)</label>
+          <input type="number" value={scenario.pretRelaisDureeMois} min="1" max="24" on:change={onNum('pretRelaisDureeMois')} />
+        </div>
+        <div class="field">
+          <label>Durée effective (mois) <small>vente réelle du bien</small></label>
+          <input type="number" value={scenario.pretRelaisDureeEffectiveMois} min="1" max={scenario.pretRelaisDureeMois} on:change={onNum('pretRelaisDureeEffectiveMois')} />
+          <span class="hint">Coût calculé sur {Math.min(scenario.pretRelaisDureeEffectiveMois, scenario.pretRelaisDureeMois)} mois</span>
+        </div>
+        <div class="field">
+          <label>Taux du relais (%)</label>
+          <input type="number" value={scenario.pretRelaisTaux} min="0" max="20" step="0.01" on:change={onNum('pretRelaisTaux')} />
+        </div>
+        <div class="field">
+          <label>Type de franchise</label>
+          <select value={scenario.pretRelaisType} on:change={onSelect('pretRelaisType')}>
+            <option value="franchise-partielle">Franchise partielle (intérêts mensuels)</option>
+            <option value="franchise-totale">Franchise totale (intérêts capitalisés)</option>
+          </select>
+        </div>
+      {/if}
+    </section>
+
+    <!-- Remboursement anticipé -->
+    <section>
+      <h3>
+        <label class="toggle">
+          <input type="checkbox" checked={scenario.remboursementAnticipeActif} on:change={onCheck('remboursementAnticipeActif')} />
+          Remboursement anticipé
+        </label>
+      </h3>
+      {#if scenario.remboursementAnticipeActif}
+        <div class="field">
+          <label>Au mois numéro</label>
+          <input type="number" value={scenario.remboursementAnticipeMois} min="1" on:change={onNum('remboursementAnticipeMois')} />
+        </div>
+        <div class="field">
+          <label>Montant (€)</label>
+          <input type="number" value={scenario.remboursementAnticipeMontant} min="0" on:change={onNum('remboursementAnticipeMontant')} />
+        </div>
+        <div class="field">
+          <label>Conséquence</label>
+          <select value={scenario.remboursementAnticipeConsequence} on:change={onSelect('remboursementAnticipeConsequence')}>
+            <option value="reduire-duree">Réduire la durée</option>
+            <option value="reduire-mensualite">Réduire la mensualité</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="toggle">
+            <input type="checkbox" checked={scenario.iraActif} on:change={onCheck('iraActif')} />
+            Appliquer les IRA (pénalités légales, art. L313-47)
+          </label>
+        </div>
+      {/if}
+    </section>
+
+  </div>
 </aside>
 
 <style>
   .editor {
     background: #f8f9fa;
     border-radius: 8px;
-    padding: 1.25rem;
+    padding: 0.75rem 1rem;
     border: 1px solid #dee2e6;
   }
+  .sections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+  }
   section {
-    margin-top: 1.25rem;
-    padding-top: 1rem;
-    border-top: 1px solid #dee2e6;
+    flex: 1 1 180px;
+    min-width: 0;
+    padding-top: 0.6rem;
+    border-top: 2px solid #dee2e6;
   }
   h3 {
-    margin: 0 0 0.75rem;
+    margin: 0 0 0.4rem;
     font-size: 0.85rem;
     color: #1a5276;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
-  .field { margin-bottom: 0.65rem; }
+  .nom-field { margin-bottom: 0.6rem; max-width: 300px; }
+  .field { margin-bottom: 0.4rem; }
   label { display: block; font-size: 0.82rem; color: #555; margin-bottom: 0.2rem; }
   small { color: #999; font-size: 0.75rem; }
   input[type="number"],

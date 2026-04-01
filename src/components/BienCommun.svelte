@@ -64,11 +64,11 @@
   .bien-commun {
     display: flex;
     align-items: flex-end;
-    gap: 1rem;
+    gap: 0.6rem 1rem;
     background: #1a5276;
-    padding: 0.75rem 1.25rem;
+    padding: 0.5rem 1rem;
     border-radius: 8px;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     flex-wrap: wrap;
   }
   .label {
@@ -98,7 +98,12 @@
     background: rgba(255,255,255,0.12);
     color: white;
     font-size: 0.9rem;
-    width: 140px;
+    width: 120px;
+    min-width: 80px;
+  }
+  @media (max-width: 600px) {
+    input { width: 100%; }
+    .sep { display: none; }
   }
   input:focus {
     outline: none;
